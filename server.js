@@ -65,12 +65,30 @@ app.get("/api/characters/:route", (req, res) => {
     res.json(character);
 })
 
+//
+// adding a new character, it is being sent via the body (using postman)
+
 app.post("/api/characters/add", (req, res) => {
 
-    console.log("post test " + req.body);
-    res.end();
+    console.log("post ttest", req.body);
+    characters.push(req.body);
+
+    const newcharacter = req.body;
+
+    // make new route name based on the name, remove spaces and lower case
+    newcharacter.routeName = newcharacter.name.replace(/ /g, "").toLowerCase();
+    characters.push(newcharacter);
+
+    console.log(characters);
+
+    //
+    // send a status back instead of just end
+    
+    res.status(200).send();
 })
 
+//
+// start server so it starts and listens
 
 app.listen(PORT, () => {
     console.log(`server is listening on ${PORT}`);
