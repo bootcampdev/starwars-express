@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const PORT = 3000;
 
 //
@@ -37,8 +38,13 @@ const characters = [
 ]
 
 // request and response
+// home route
+
 app.get("/", (req, res) => {
-    res.send("May the force be behind you!");
+    //res.send("May the force be behind you!");
+    console.log(path.join( __dirname + "/public/index.html"));
+
+    res.sendFile( path.join( __dirname + "/public/index.html"));
 })
 
 //
@@ -83,7 +89,7 @@ app.post("/api/characters/add", (req, res) => {
 
     //
     // send a status back instead of just end
-    
+
     res.status(200).send();
 })
 
