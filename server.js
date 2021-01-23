@@ -2,6 +2,13 @@ const express = require("express");
 const app = express();
 const PORT = 3000;
 
+//
+// middleware: will need for posting - required for all express for any request comming in
+
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+
+
 const characters = [
     {
         name: "Yoda",
@@ -34,18 +41,36 @@ app.get("/", (req, res) => {
     res.send("May the force be behind you!");
 })
 
+//
 // route to see /api/characters
 // the api is convention to indicate that data is being returned
+
 app.get("/api/characters", (req, res) => {
     res.json(characters);
-}
+})
 
-)
-
+//
 // route to see a character (send parameter) /api/characters/yoda
-
-
 // route to see a character (send parameter) /api/characters/:routeName
+
+app.get("/api/characters/:route", (req, res) => {
+    console.log(req.params);
+
+    const targetCharacter = req.params.route;
+
+    const character = characters.find(character => {
+        return character.routeName === targetCharacter;
+    })
+
+    res.json(character);
+})
+
+app.post("/api/characters/add", (req, res) => {
+
+    console.log("post test " + req.body);
+    res.end();
+})
+
 
 app.listen(PORT, () => {
     console.log(`server is listening on ${PORT}`);
